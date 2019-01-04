@@ -1,28 +1,44 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Card, Button } from 'antd';
+import 'antd/lib/card/style/css';
+import 'antd/lib/button/style/css'
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            games: null,
+        };
+    }
+    componentDidMount() {
+        fetch("http://localhost:8080/game/all")
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+                this.setState({
+                    games: json,
+                });
+            });
+    }
+    render() {
+        const { games } = this.state;
+        if (!games) {
+            return null;
+        }
+        return (
+            <div>
+                <div className="game">
+                    {games.map(game => {
+                        return(
+                                <Card className="card" title={game.title}>{game.description}</Card>
+                        )
+                    })}
+                </div>
+                <Button className="add-game" type="primary" htmlType="button">Add New Game</Button>
+            </div>
+        );
+    }
 }
 
 export default App;
