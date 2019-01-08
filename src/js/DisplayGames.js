@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import '../css/App.css';
 import { Card, Button, Input } from 'antd';
 import 'antd/lib/card/style/css';
 import 'antd/lib/button/style/css';
 import 'antd/lib/input/style/css';
-import './App.css';
 
-class App extends Component {
+class DisplayGames extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -19,6 +19,7 @@ class App extends Component {
         this.handleNewGameTitle = this.handleNewGameTitle.bind(this);
         this.handleNewGameDescription = this.handleNewGameDescription.bind(this);
     }
+
     componentDidMount() {
         fetch("http://localhost:8080/game/all")
             .then(response => response.json())
@@ -49,7 +50,8 @@ class App extends Component {
         fetch("http://localhost:8080/game/add?title=" + encodeURI(this.state.newGameTitle) + "&description=" + encodeURI(this.state.newGameDescription));
         this.toggleAddGame();
     }
-    render() {
+
+    render(){
         const { games, addGame, newGameTitle, newGameDescription } = this.state;
         let showAddGame = "show-add-game-1";
         if (!games) {
@@ -58,7 +60,7 @@ class App extends Component {
         if(addGame) {
             showAddGame += " show-add-game-2";
         }
-        return (
+        return(
             <div>
                 <div className="game">
                     {games.map(game => {
@@ -78,8 +80,8 @@ class App extends Component {
                     </Card>
                 </div>
             </div>
-        );
+        )
     }
 }
 
-export default App;
+export default DisplayGames;

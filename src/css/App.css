@@ -37,7 +37,7 @@ body {
 }
 
 .add-game-card {
-    margin: auto;
+    margin: auto 0;
     border: 1px black solid;
     width: 400px;
     height: 300px;
