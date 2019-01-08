@@ -1,0 +1,32 @@
+body {
+    background: #151615;
+}
+
+.log-in {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.log-in-card {
+    text-align: center;
+    border: 1px black solid;
+    width: 400px;
+}
+
+.log-in-input {
+    border: 1px #555354 solid;
+}
+
+.log-in-space {
+    margin: 10px 0 10px 0;
+}
+
+.log-in-btns {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sign-up-btn {
+    border: 1px #151615 solid;
+}
