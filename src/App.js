@@ -30,20 +30,24 @@ class App extends Component {
             });
     }
 
-    toggleAddGame(){
+    toggleAddGame() {
         this.setState({addGame: !this.state.addGame})
     }
-    handleNewGameTitle(e){
+
+    removeGame(id) {
+        fetch("http://localhost:8080/game/remove/" + id);
+    }
+    handleNewGameTitle(e) {
         this.setState({newGameTitle: e.target.value})
     }
 
-    handleNewGameDescription(e){
+    handleNewGameDescription(e) {
         this.setState({newGameDescription: e.target.value})
     }
 
-    submitNewGame(){
+    submitNewGame() {
         fetch("http://localhost:8080/game/add?title=" + encodeURI(this.state.newGameTitle) + "&description=" + encodeURI(this.state.newGameDescription));
-
+        this.toggleAddGame();
     }
     render() {
         const { games, addGame, newGameTitle, newGameDescription } = this.state;
@@ -59,7 +63,7 @@ class App extends Component {
                 <div className="game">
                     {games.map(game => {
                         return(
-                            <Card className="display-game-card" title={game.title}>{game.description}</Card>
+                            <Card className="display-game-card" title={game.title} extra={<a className="close-button" onClick={e => this.removeGame(game.id)}>X</a>}>{game.description}</Card>
                         )
                     })}
                 </div>
