@@ -29,7 +29,7 @@ class LogInPage extends Component {
             .then(response => response.text())
             .then(text => {
                if(text==="Success"){
-                   console.log("success")
+                   this.props.isLoggedIn(true);
                }else{
                    console.log("Wrong username/password");
                }
