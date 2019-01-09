@@ -8,12 +8,17 @@ class App extends Component {
         super(props);
         this.state = {
             loggedIn: false,
-        }
+        };
+        this.isLoggedIn = this.isLoggedIn.bind(this);
+    }
+
+    isLoggedIn(e) {
+        this.setState({loggedIn: e})
     }
 
     render() {
-        const { LoggedIn } = this.state;
-        return (LoggedIn ? <DisplayGames/> : <LogInPage/>)
+        const { loggedIn } = this.state;
+        return (loggedIn ? <DisplayGames/> : <LogInPage isLoggedIn={this.isLoggedIn}/>)
     }
 }
 
