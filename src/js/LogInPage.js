@@ -25,7 +25,15 @@ class LogInPage extends Component {
     }
 
     logIn() {
-        console.log(this.state.username + this.state.password)
+        fetch("http://localhost:8080/user/login?username=" + this.state.username + "&password=" + this.state.password)
+            .then(response => response.text())
+            .then(text => {
+               if(text==="Success"){
+                   console.log("success")
+               }else{
+                   console.log("Wrong username/password");
+               }
+            });
     }
 
     render() {
