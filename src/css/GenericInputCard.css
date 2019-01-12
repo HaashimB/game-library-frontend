@@ -1,0 +1,28 @@
+.log-in {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+.generic-input-card {
+    text-align: center;
+    border: 1px black solid;
+    width: 400px;
+}
+
+.generic-input-card-input {
+    border: 1px #555354 solid;
+}
+
+.generic-input-card-space {
+    margin: 10px 0 10px 0;
+}
+
+.generic-input-card-btns {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sign-up-btn {
+    border: 1px #151615 solid;
+}
