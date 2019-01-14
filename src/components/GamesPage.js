@@ -4,15 +4,19 @@ import { Card, Button, Input } from 'antd';
 import 'antd/lib/card/style/css';
 import 'antd/lib/button/style/css';
 import 'antd/lib/input/style/css';
+import { connect } from 'react-redux'
+import { addNewGame } from "../redux/actions";
 
-class DisplayGames extends Component{
+class GamesPage extends Component{
     constructor(props) {
         super(props);
         this.state = {
             games: null,
             addGame: false,
-            newGameTitle: '',
-            newGameDescription: '',
+            newGame: {
+                title: '',
+                description: '',
+            },
         };
         this.toggleAddGame = this.toggleAddGame.bind(this);
         this.submitNewGame = this.submitNewGame.bind(this);
@@ -35,24 +39,33 @@ class DisplayGames extends Component{
         this.setState({addGame: !this.state.addGame})
     }
 
-    removeGame(id) {
+    static removeGame(id) {
         fetch("http://localhost:8080/game/remove/" + id);
     }
+
     handleNewGameTitle(e) {
-        this.setState({newGameTitle: e.target.value})
+        this.setState({
+            newGame: {
+                title: e.target.event
+            }
+        })
     }
 
     handleNewGameDescription(e) {
-        this.setState({newGameDescription: e.target.value})
+        this.setState({
+            newGame: {
+                description: e.target.event
+            }
+        })
     }
 
     submitNewGame() {
-        fetch("http://localhost:8080/game/add?title=" + encodeURI(this.state.newGameTitle) + "&description=" + encodeURI(this.state.newGameDescription));
+        this.props.addNewGame(this.state.newGame);
         this.toggleAddGame();
     }
 
     render(){
-        const { games, addGame, newGameTitle, newGameDescription } = this.state;
+        const { games, addGame } = this.state;
         let showAddGame = "show-add-game-1";
         if (!games) {
             return null;
@@ -72,9 +85,9 @@ class DisplayGames extends Component{
                 <Button className="add-game" type="primary" htmlType="button" onClick={this.toggleAddGame}>Add New Game</Button>
                 <div className={showAddGame}>
                     <Card className="add-game-card" title="Add New Game" extra={<a className="close-button" onClick={this.toggleAddGame}>X</a>}>
-                        <Input placeholder="Game Title" value={newGameTitle} onChange={this.handleNewGameTitle} />
+                        <Input placeholder="Game Title" onChange={this.handleNewGameTitle} />
                         <div className="add-game-card-space"> </div>
-                        <Input.TextArea placeholder="Game Description" rows={4} value={newGameDescription} onChange={this.handleNewGameDescription}/>
+                        <Input.TextArea placeholder="Game Description" rows={4} onChange={this.handleNewGameDescription}/>
                         <div className="add-game-card-space"> </div>
                         <Button htmlType="button" onClick={this.submitNewGame}> Submit </Button>
                     </Card>
@@ -84,4 +97,21 @@ class DisplayGames extends Component{
     }
 }
 
-export default DisplayGames;
+function mapStateToProps(state) {
+    return {
+        newGame: state.games
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addNewGame: () => dispatch(addNewGame())
+    }
+}
+
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(GamesPage);
