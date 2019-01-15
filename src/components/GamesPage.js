@@ -39,14 +39,15 @@ class GamesPage extends Component{
         this.setState({addGame: !this.state.addGame})
     }
 
-    static removeGame(id) {
+    removeGame(id) {
         fetch("http://localhost:8080/game/remove/" + id);
     }
 
     handleNewGameTitle(e) {
         this.setState({
             newGame: {
-                title: e.target.event
+                ...this.state.newGame,
+                title: e.target.value,
             }
         })
     }
@@ -54,7 +55,8 @@ class GamesPage extends Component{
     handleNewGameDescription(e) {
         this.setState({
             newGame: {
-                description: e.target.event
+                ...this.state.newGame,
+                description: e.target.value,
             }
         })
     }
@@ -85,9 +87,9 @@ class GamesPage extends Component{
                 <Button className="add-game" type="primary" htmlType="button" onClick={this.toggleAddGame}>Add New Game</Button>
                 <div className={showAddGame}>
                     <Card className="add-game-card" title="Add New Game" extra={<a className="close-button" onClick={this.toggleAddGame}>X</a>}>
-                        <Input placeholder="Game Title" onChange={this.handleNewGameTitle} />
+                        <Input placeholder="Game Title" onChange={(e) => this.handleNewGameTitle(e)} />
                         <div className="add-game-card-space"> </div>
-                        <Input.TextArea placeholder="Game Description" rows={4} onChange={this.handleNewGameDescription}/>
+                        <Input.TextArea placeholder="Game Description" rows={4} onChange={(e) => this.handleNewGameDescription(e)}/>
                         <div className="add-game-card-space"> </div>
                         <Button htmlType="button" onClick={this.submitNewGame}> Submit </Button>
                     </Card>
@@ -105,7 +107,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addNewGame: () => dispatch(addNewGame())
+        addNewGame: (newGame) => dispatch(addNewGame(newGame))
     }
 }
 
